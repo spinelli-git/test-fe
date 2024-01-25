@@ -29,6 +29,20 @@ export class AppComponent implements OnInit {
     });
   }
 
+  startEventStreamQUote() {
+    if (this.sseSubscription) {
+      this.sseSubscription.unsubscribe();
+      this.messages = [];
+    }
+
+    this.sseSubscription = this.dataService.getServerSentEventQuote().subscribe({
+      next: (data) => {
+        this.messages.push(data);
+      },
+      error: (error) => console.error(error),
+    });
+  }
+
   stopEventStream() {
     if (this.sseSubscription) {
       this.sseSubscription.unsubscribe();
